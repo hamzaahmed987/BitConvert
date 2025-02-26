@@ -35,8 +35,8 @@ Follow these steps to set up the project locally:
 
 ### 1️⃣ Clone the Repository  
 ```sh
-git clone https://github.com/your-username/smart-bit-converter-ai-chatbot.git
-cd smart-bit-converter-ai-chatbot
+git clone https://github.com/hamzaahmed987/BitConvert.git
+cd BitConvert
 ```
 
 ### 2️⃣ Install Dependencies  
@@ -69,7 +69,7 @@ This project is licensed under the **MIT License**. Feel free to use, modify, an
 ---
 
 ## 🌟 Connect with Me   
-🔗 **LinkedIn**: [Your LinkedIn Profile](www.linkedin.com/in/hamza-ahmed-9b38402b3)   
+🔗 **LinkedIn**: [Your LinkedIn Profile](https://www.linkedin.com/in/hamza-ahmed-9b38402b3/)   
 
 🚀 **Enjoy using Smart Bit Converter & AI Chatbot!**  
 🌟 If you like this project, don't forget to **star** the repository! ⭐
