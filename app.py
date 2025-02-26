@@ -74,8 +74,14 @@ def is_invalid_conversion(user_input):
 
 # AI Chatbot function
 def chatbot_response(user_input):
+    # Only focus on conversion-related queries
     if is_invalid_conversion(user_input):
-        return "❌ Error: You cannot convert temperature into weight. Please enter a valid question."
+        return "❌ Error: You cannot convert temperature into weight. Please enter a valid question about conversions."
+    
+    # Filter out non-conversion topics
+    if not any(unit in user_input.lower() for unit in ["meter", "kilometer", "centimeter", "mile", "kilogram", "gram", "pound", "celsius", "fahrenheit", "kelvin"]):
+        return "❌ Please ask a question related to unit or currency conversions. For example, ask about converting meters to kilometers or kilograms to pounds."
+    
     try:
         model = genai.GenerativeModel(model_name=MODEL_NAME)
         response = model.generate_content(user_input)
