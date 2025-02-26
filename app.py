@@ -53,14 +53,14 @@ st.markdown("""
 # Configure Gemini API
 load_dotenv()
 
-# Get API key from environment variable
+# Get API key
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Ensure API key is not missing
 if not GEMINI_API_KEY:
-    st.error("❌ Error: Missing API key. Please set GEMINI_API_KEY in your .env file.")
-else:
-    genai.configure(api_key=GEMINI_API_KEY)
+    raise ValueError("❌ Error: Missing API key. Please check your .env file.")
+
+# Configure API
+genai.configure(api_key=GEMINI_API_KEY)
 
 MODEL_NAME = "gemini-2.0-flash"
 
@@ -127,7 +127,7 @@ with tab1:
         
         st.divider()
         
-        # Input Fields (outside form)
+        # Input Fields
         col_input = st.columns(3)
         with col_input[0]:
             value = st.number_input("Enter value:", min_value=0.0, format="%.2f")
@@ -166,7 +166,7 @@ with tab2:
             st.session_state.chat_history = []
             
         user_input = st.chat_input("Ask me anything about conversions...")
-        
+
         if user_input:
             with st.spinner("💡 Thinking..."):
                 ai_response = chatbot_response(user_input)
@@ -175,7 +175,8 @@ with tab2:
                     "ai": ai_response
                 })
                 
-        for chat in st.session_state.chat_history:
+        # Display chat history (latest message on top)
+        for chat in reversed(st.session_state.chat_history):
             with st.container():
                 st.markdown(f"""
                     <div class="chat-response">
@@ -183,7 +184,7 @@ with tab2:
                         {chat['user']}
                     </div>
                 """, unsafe_allow_html=True)
-                
+
                 st.markdown(f"""
                     <div class="chat-response" style="background: #f3f4f6;">
                         <strong>🤖 SmartBit:</strong><br>
