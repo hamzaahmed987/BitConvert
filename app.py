@@ -1,7 +1,7 @@
 import streamlit as st
 import google.generativeai as genai
 import os
-from dotenv import load_dotenv 
+from dotenv import load_dotenv
 
 # Configure Page
 st.set_page_config(
@@ -62,7 +62,7 @@ if not GEMINI_API_KEY:
 # Configure API
 genai.configure(api_key=GEMINI_API_KEY)
 
-MODEL_NAME = "gemini-2.0-flash"
+MODEL_NAME = "gemini-2.0-flash"  # Ensure this model name is correct
 
 # Function to check for invalid conversion requests
 def is_invalid_conversion(user_input):
@@ -72,18 +72,15 @@ def is_invalid_conversion(user_input):
     contains_temp = any(unit in user_input.lower() for unit in temp_units)
     return contains_weight and contains_temp
 
-# AI Chatbot function
+# AI Chatbot function with system_instruction to prevent off-topic answers
 def chatbot_response(user_input):
-    # Only focus on conversion-related queries
     if is_invalid_conversion(user_input):
-        return "❌ Error: You cannot convert temperature into weight. Please enter a valid question about conversions."
-    
-    # Filter out non-conversion topics
-    if not any(unit in user_input.lower() for unit in ["meter", "kilometer", "centimeter", "mile", "kilogram", "gram", "pound", "celsius", "fahrenheit", "kelvin"]):
-        return "❌ Please ask a question related to unit or currency conversions. For example, ask about converting meters to kilometers or kilograms to pounds."
-    
+        return "❌ Error: You cannot convert temperature into weight. Please enter a valid question."
     try:
-        model = genai.GenerativeModel(model_name=MODEL_NAME)
+        model = genai.GenerativeModel(
+            model_name=MODEL_NAME,
+            system_instruction="You are a helpful assistant for unit and currency conversions. Only answer questions related to conversions. If the question is not about conversions, politely decline to answer."
+        )
         response = model.generate_content(user_input)
         return response.text
     except Exception as e:
@@ -118,8 +115,8 @@ st.divider()
 tab1, tab2 = st.tabs(["📏 Unit Converter", "💬 AI Assistant"])
 
 all_units = ["meters", "kilometers", "centimeters", "miles", 
-            "kilograms", "grams", "pounds", "celsius", 
-            "fahrenheit", "kelvin"]
+             "kilograms", "grams", "pounds", "celsius", 
+             "fahrenheit", "kelvin"]
 
 # Unit Converter Tab
 with tab1:
